@@ -1,0 +1,149 @@
+{{define "employee"}}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Karyawan</title>
+</head>
+
+<body>
+    <h1>Sistem Informasi Karyawan</h1>
+    <a href="/employee/insert"><button type="submit">Tambah Karyawan</button></a>
+    <a href="/employee/arsip"><button type="submit">Lihat Semua Data Karyawan</button></a>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Nama</th>
+            <th>Alamat</th>
+            <th>Jabatan</th>
+            <th colspan="2"></th>
+        </tr>
+        {{range $index, $emply := .}}
+        <tr>
+            <td>{{$emply.Id}}</td>
+            <td>{{$emply.Name}}</td>
+            <td>{{$emply.Address}}</td>
+            <td>{{$emply.Role}}</td>
+            <td><a href="employee/update?id={{$emply.Id}}">Update</a></td>
+            <td><a href="employee/inactive?id={{$emply.Id}}">Nonaktif</a></td>
+        </tr>
+        {{end}}
+    </table>
+</body>
+
+</html>
+{{end}}
+
+{{define "employee/insert"}}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tambah Data Karyawan</title>
+</head>
+
+<body>
+    <form action="/employee/insert" method="post">
+        <label>Nama Karyawan : </label>
+        <input type="text" name="name" placeholder="Nama Karyawan ...." required />
+        <br />
+
+        <label>Alamat : </label>
+        <input type="text" name="address" placeholder="Alamat Karyawan ...." required />
+        <br />
+
+        <label>Jabatan : </label>
+        <input type="text" name="role" placeholder="Jabatan Karyawan ...." required />
+        <br />
+
+        <button type="submit">Simpan</button>
+    </form>
+</body>
+
+</html>
+{{end}}
+
+{{define "employee/update"}}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Data Karyawan</title>
+</head>
+
+<body>
+    <form action="/employee/update?id={{.Id}}" method="post">
+        <!-- <label>ID Karyawan : </label>
+        <input type="text" name="id" value="{{.Id}}" disabled required />
+        <br /> -->
+
+        <label>Nama Karyawan : </label>
+        <input type="text" name="name" value="{{.Name}}" required />
+        <br />
+
+        <label>Alamat : </label>
+        <input type="text" name="address" value="{{.Address}}" required />
+        <br />
+
+        <label>Jabatan : </label>
+        <input type="text" name="role" value="{{.Role}}" required />
+        <br />
+
+        <button type="submit">Simpan</button>
+    </form>
+</body>
+
+</html>
+{{end}}
+
+{{define "employee/arsip"}}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Karyawan</title>
+</head>
+
+<body>
+    <a href="/employee">Kembali</a>
+    <h2>List Data Karyawan</h2>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Nama</th>
+            <th>Alamat</th>
+            <th>Jabatan</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+        {{range $index, $emply := .}}
+        <tr>
+            <td>{{.Id}}</td>
+            <td>{{.Name}}</td>
+            <td>{{.Address}}</td>
+            <td>{{.Role}}</td>
+            <td>{{.Status}}</td>
+            {{if eq .Status "Nonaktif"}}
+            <td><a href="/employee/active?id={{.Id}}">Aktifkan</a></td>
+            {{else}}
+            <td></td>
+            {{end}}
+        </tr>
+        {{end}}
+    </table>
+</body>
+
+</html>
+{{end}}

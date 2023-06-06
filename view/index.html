@@ -1,0 +1,161 @@
+{{define "index"}}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIM-ARF Store</title>
+    <style>
+        th,
+        td {
+            padding: 8px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Sistem Informasi Barang</h1>
+    <a href="/insert"><button type="submit"> Tambah Barang</button></a>
+    <a href="/arsip"><button type="submit">Lihat Data Arsip</button></a>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Stok</th>
+            <th>Harga</th>
+            <th colspan="2">Action</th>
+        </tr>
+        {{range $index, $item := .}}
+        <tr>
+            <td>{{$item.Id}}</td>
+            <td>{{$item.Name}}</td>
+            <td>{{$item.Stock}}</td>
+            <td>Rp. {{$item.Price}}</td>
+            <td><a href="/update?id={{$item.Id}}"><button type="submit">Update</button></a></td>
+            <td><a href="/arsipItemId?id={{$item.Id}}"><button type="submit">Arsip</button></a></td>
+        </tr>
+        {{end}}
+    </table>
+</body>
+
+</html>
+{{end}}
+
+{{define "insert"}}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tambah Data Barang</title>
+</head>
+
+<body>
+    <form action="/insert" method="post">
+        <label>Nama Barang : </label>
+        <input type="text" name="name" placeholder="Isi Nama Barang ..." required />
+        <br>
+
+        <label>Stok Barang : </label>
+        <input type="number" name="stock" placeholder="Isi Stok Barang ..." required />
+        <br>
+
+        <label>Harga Barang : </label>
+        <input type="text" name="price" placeholder="Isi Harga Barang ..." required />
+        <br>
+
+        <button type="submit">Simpan</button>
+    </form>
+</body>
+
+</html>
+{{end}}
+
+{{define "update"}}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Data Barang</title>
+</head>
+
+<body>
+    <form action="/update?id={{.Id}}" method="post">
+        <label>Nama Barang : </label>
+        <input type="text" name="name" value="{{.Name}}" required />
+        <br>
+
+        <label>Stok Barang : </label>
+        <input type="number" name="stock" value="{{.Stock}}" required />
+        <br>
+
+        <label>Harga Barang : </label>
+        <input type="text" name="price" value="{{.Price}}" required />
+        <br>
+
+        <button type="submit">Simpan</button>
+    </form>
+</body>
+
+</html>
+{{end}}
+
+{{define "arsip"}}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List Arsip Barang</title>
+    <style>
+        a {
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: coral;
+        }
+
+        th,
+        td {
+            padding: 8px;
+        }
+    </style>
+</head>
+
+<body>
+    <a href="/index">Kembali</a>
+    <h2>List Arsip Barang</h2>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Stok</th>
+            <th>Harga</th>
+            <th>Action</th>
+        </tr>
+        {{range $index, $item := .}}
+        <tr>
+            <td>{{$item.Id}}</td>
+            <td>{{$item.Name}}</td>
+            <td>{{$item.Stock}}</td>
+            <td>{{$item.Price}}</td>
+            <td>
+                <form action="/arsip?id={{$item.Id}}" method="post"><button type="submit">Tampilkan</button></form>
+            </td>
+        </tr>
+        {{end}}
+    </table>
+</body>
+
+</html>
+{{end}}
